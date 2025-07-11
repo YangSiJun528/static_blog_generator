@@ -1,0 +1,29 @@
+{
+  "name": "static_blog_generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rm -rf dist output",
+    "prestart": "npm run clean && tsc && mkdir -p dist/markdown && cp src/markdown/markdown-it-obsidian.js dist/markdown/markdown-it-obsidian.js",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^24.0.13",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-regex": "^0.2.0",
+    "extend": "^3.0.2",
+    "sanitize-filename": "^1.6.3"
+  }
+}

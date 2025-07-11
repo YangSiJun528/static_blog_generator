@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "jetbrains": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@jetbrains/mcp-proxy"
+      ]
+    },
+    "git-mcp-server": {
+      "command": "npx",
+      "args": ["@cyanheads/git-mcp-server"],
+      "env": {
+        "MCP_LOG_LEVEL": "info",
+        "GIT_SIGN_COMMITS": "false"
+      }
+    }
+  },
+  "contextFileName": "AGENTS.md"
+}
