@@ -17,7 +17,8 @@ export function addToggleFunctionality(htmlContent: string): string {
             const src = content.dataset.src;
             if (src && !content.dataset.loaded) {
                 console.log('Current Pathname:', window.location.pathname);
-                console.log('Fetching URL:', src); // Log the src
+                console.log('Current Pathname:', window.location.pathname);
+                console.log('Fetching URL:', src);
                 try {
                     const response = await fetch(src);
                     if (!response.ok) {

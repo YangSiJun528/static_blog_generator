@@ -21,6 +21,7 @@
     <main>
         <ul>
             
+            <li><a href="//index.html">../</a></li>
                 <li>
                     <span class="toggle-icon">▶</span> <a href="posts/2025/index.html">2025/</a>
                     <div class="toggle-content" style="display:none;" data-src="/posts/2025/index.html">
@@ -50,7 +51,8 @@
             const src = content.dataset.src;
             if (src && !content.dataset.loaded) {
                 console.log('Current Pathname:', window.location.pathname);
-                console.log('Fetching URL:', src); // Log the src
+                console.log('Current Pathname:', window.location.pathname);
+                console.log('Fetching URL:', src);
                 try {
                     const response = await fetch(src);
                     if (!response.ok) {

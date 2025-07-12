@@ -61,6 +61,12 @@ function generateHtmlPage(title, content, currentPath) {
 // Generates only the <ul><li>...</li></ul> content for a directory listing
 function generateDirectoryListContent(currentPath, items, allDirectoryStructure) {
     let listItemsHtml = '';
+    // Add parent directory link (../)
+    const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+    if (currentPath !== '/') {
+        listItemsHtml += `
+            <li><a href="${parentPath === '' ? '/' : parentPath}/index.html">../</a></li>`;
+    }
     // Sort items: directories first, then files, both alphabetically
     const sortedItems = items.sort((a, b) => {
         if (a.type === 'directory' && b.type === 'file')

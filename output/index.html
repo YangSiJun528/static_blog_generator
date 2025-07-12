@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index of /.</title>
+    <title>Index of /</title>
     <style>
         .toggle-icon {
             cursor: pointer;
@@ -15,8 +15,8 @@
 </head>
 <body>
     <header>
-        <nav><a href="/">Home</a> / <a href="/./index.html">.</a></nav>
-        <h1>Index of /.</h1>
+        <nav><a href="/">Home</a></nav>
+        <h1>Index of /</h1>
     </header>
     <main>
         <ul>
@@ -62,7 +62,8 @@
             const src = content.dataset.src;
             if (src && !content.dataset.loaded) {
                 console.log('Current Pathname:', window.location.pathname);
-                console.log('Fetching URL:', src); // Log the src
+                console.log('Current Pathname:', window.location.pathname);
+                console.log('Fetching URL:', src);
                 try {
                     const response = await fetch(src);
                     if (!response.ok) {

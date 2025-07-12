@@ -82,7 +82,9 @@ export function generateStaticBlog(projectRoot: string): void {
             // Add parent directories to their parent's listing
             let tempRelativeDir = currentRelativeOutputDir;
             while (tempRelativeDir !== '') {
-                const parentDir = path.dirname(tempRelativeDir); // e.g., '2025' from '2025/07'
+                let parentDir = path.dirname(tempRelativeDir); // e.g., '2025' from '2025/07'
+                if (parentDir === '.') parentDir = ''; // Ensure root is always ''
+
                 const dirName = path.basename(tempRelativeDir); // e.g., '07' from '2025/07'
 
                 if (!directoryStructure.has(parentDir)) {
@@ -91,11 +93,12 @@ export function generateStaticBlog(projectRoot: string): void {
                 const existingDirEntry = directoryStructure.get(parentDir)?.find(item => item.name === dirName && item.type === 'directory');
                 if (!existingDirEntry) {
                     directoryStructure.get(parentDir)?.push({
-                        name: dirName,                        type: 'directory',                        link: path.join(parentDir, dirName, 'index.html').replace(/\\/g, '/')
+                        name: dirName,
+                        type: 'directory',
+                        link: path.join(parentDir, dirName, 'index.html').replace(/\\/g, '/')
                     });
                 }
                 tempRelativeDir = parentDir;
-                if (tempRelativeDir === '.') tempRelativeDir = ''; // Stop at root
             }
 
         } else {

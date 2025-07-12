@@ -69,6 +69,13 @@ interface DirectoryItem {
 function generateDirectoryListContent(currentPath: string, items: DirectoryItem[], allDirectoryStructure: Map<string, DirectoryItem[]>): string {
     let listItemsHtml = '';
 
+    // Add parent directory link (../)
+    const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+    if (currentPath !== '/') {
+        listItemsHtml += `
+            <li><a href="${parentPath === '' ? '/' : parentPath}/index.html">../</a></li>`;
+    }
+
     // Sort items: directories first, then files, both alphabetically
     const sortedItems = items.sort((a, b) => {
         if (a.type === 'directory' && b.type === 'file') return -1;
