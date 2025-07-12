@@ -80,7 +80,13 @@ function generateDirectoryListContent(currentPath, items, allDirectoryStructure)
                 </li>`;
         }
         else {
-            listItemsHtml += `<li><a href="${item.link}">${item.name}</a></li>`;
+            listItemsHtml += `
+                <li>
+                    <span class="toggle-icon">▶</span> <a href="${item.link}">${item.name}</a>
+                    <div class="toggle-content" style="display:none;" data-src="${item.link}">
+                        <!-- Content will be loaded dynamically here -->
+                    </div>
+                </li>`;
         }
     });
     return listItemsHtml;
