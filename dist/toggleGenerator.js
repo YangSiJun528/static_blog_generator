@@ -19,7 +19,8 @@ function addToggleFunctionality(htmlContent) {
         if (content && content.classList.contains('toggle-content')) {
             const src = content.dataset.src;
             if (src && !content.dataset.loaded) {
-                console.log('Fetching:', src); // Log the src
+                console.log('Current Pathname:', window.location.pathname);
+                console.log('Fetching URL:', src); // Log the src
                 try {
                     const response = await fetch(src);
                     if (!response.ok) {

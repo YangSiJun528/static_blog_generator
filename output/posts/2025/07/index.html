@@ -23,25 +23,25 @@
             
                 <li>
                     <span class="toggle-icon">▶</span> <a href="posts/2025/07/first-post.html">first-post.html</a>
-                    <div class="toggle-content" style="display:none;" data-src="posts/2025/07/first-post.html">
+                    <div class="toggle-content" style="display:none;" data-src="/posts/2025/07/first-post.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li>
                     <span class="toggle-icon">▶</span> <a href="posts/2025/07/fourth-post.html">fourth-post.html</a>
-                    <div class="toggle-content" style="display:none;" data-src="posts/2025/07/fourth-post.html">
+                    <div class="toggle-content" style="display:none;" data-src="/posts/2025/07/fourth-post.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li>
                     <span class="toggle-icon">▶</span> <a href="posts/2025/07/second-post.html">second-post.html</a>
-                    <div class="toggle-content" style="display:none;" data-src="posts/2025/07/second-post.html">
+                    <div class="toggle-content" style="display:none;" data-src="/posts/2025/07/second-post.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li>
                     <span class="toggle-icon">▶</span> <a href="posts/2025/07/third-post.html">third-post.html</a>
-                    <div class="toggle-content" style="display:none;" data-src="posts/2025/07/third-post.html">
+                    <div class="toggle-content" style="display:none;" data-src="/posts/2025/07/third-post.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
@@ -67,7 +67,8 @@
         if (content && content.classList.contains('toggle-content')) {
             const src = content.dataset.src;
             if (src && !content.dataset.loaded) {
-                console.log('Fetching:', src); // Log the src
+                console.log('Current Pathname:', window.location.pathname);
+                console.log('Fetching URL:', src); // Log the src
                 try {
                     const response = await fetch(src);
                     if (!response.ok) {

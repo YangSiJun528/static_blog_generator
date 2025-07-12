@@ -74,7 +74,7 @@ function generateDirectoryListContent(currentPath, items, allDirectoryStructure)
             listItemsHtml += `
                 <li>
                     <span class="toggle-icon">▶</span> <a href="${item.link}">${item.name}/</a>
-                    <div class="toggle-content" style="display:none;" data-src="${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
+                    <div class="toggle-content" style="display:none;" data-src="/${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>`;
@@ -83,7 +83,7 @@ function generateDirectoryListContent(currentPath, items, allDirectoryStructure)
             listItemsHtml += `
                 <li>
                     <span class="toggle-icon">▶</span> <a href="${item.link}">${item.name}</a>
-                    <div class="toggle-content" style="display:none;" data-src="${item.link}">
+                    <div class="toggle-content" style="display:none;" data-src="/${item.link}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>`;

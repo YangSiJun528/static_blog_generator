@@ -23,19 +23,19 @@
             
                 <li>
                     <span class="toggle-icon">▶</span> <a href="about/index.html">about/</a>
-                    <div class="toggle-content" style="display:none;" data-src="about/index.html">
+                    <div class="toggle-content" style="display:none;" data-src="/about/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li>
                     <span class="toggle-icon">▶</span> <a href="posts/index.html">posts/</a>
-                    <div class="toggle-content" style="display:none;" data-src="posts/index.html">
+                    <div class="toggle-content" style="display:none;" data-src="/posts/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li>
                     <span class="toggle-icon">▶</span> <a href="test/index.html">test/</a>
-                    <div class="toggle-content" style="display:none;" data-src="test/index.html">
+                    <div class="toggle-content" style="display:none;" data-src="/test/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
@@ -61,7 +61,8 @@
         if (content && content.classList.contains('toggle-content')) {
             const src = content.dataset.src;
             if (src && !content.dataset.loaded) {
-                console.log('Fetching:', src); // Log the src
+                console.log('Current Pathname:', window.location.pathname);
+                console.log('Fetching URL:', src); // Log the src
                 try {
                     const response = await fetch(src);
                     if (!response.ok) {
