@@ -40,6 +40,15 @@ export function generateStaticBlog(projectRoot: string): void {
     if (fs.existsSync(filesDirPath)) {
         copyDirectory(filesDirPath, path.join(outputDirPath, FILES_DIR_NAME));
     }
+    // Copy normalize.css to output assets
+    const normalizeCssPath = path.join(projectRoot, 'src', 'style', 'normalize.css');
+    const outputCssDir = path.join(outputDirPath, ASSETS_DIR_NAME, 'css');
+    if (!fs.existsSync(outputCssDir)) {
+        fs.mkdirSync(outputCssDir, { recursive: true });
+    }
+    if (fs.existsSync(normalizeCssPath)) {
+        fs.copyFileSync(normalizeCssPath, path.join(outputCssDir, 'normalize.css'));
+    }
 
     // 2. Traverse notes directory, parse markdown, and generate HTML
     traverseDirectory(notesDirPath, (filePath: string) => {

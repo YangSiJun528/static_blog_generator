@@ -64,6 +64,15 @@ function generateStaticBlog(projectRoot) {
     if (fs.existsSync(filesDirPath)) {
         (0, fileOperations_1.copyDirectory)(filesDirPath, path.join(outputDirPath, FILES_DIR_NAME));
     }
+    // Copy normalize.css to output assets
+    const normalizeCssPath = path.join(projectRoot, 'src', 'style', 'normalize.css');
+    const outputCssDir = path.join(outputDirPath, ASSETS_DIR_NAME, 'css');
+    if (!fs.existsSync(outputCssDir)) {
+        fs.mkdirSync(outputCssDir, { recursive: true });
+    }
+    if (fs.existsSync(normalizeCssPath)) {
+        fs.copyFileSync(normalizeCssPath, path.join(outputCssDir, 'normalize.css'));
+    }
     // 2. Traverse notes directory, parse markdown, and generate HTML
     (0, directoryTraversal_1.traverseDirectory)(notesDirPath, (filePath) => {
         var _a, _b, _c;

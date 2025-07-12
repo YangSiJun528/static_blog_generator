@@ -34,31 +34,32 @@ function generateHtmlPage(title, content, currentPath) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
+    <link rel="stylesheet" href="/assets/normalize.css">
     <style>
-        .toggle-icon {
-            cursor: pointer;
-            display: inline-block;
-        }
-        .triangle-toggle {
-            width: 0;
-            height: 0;
-            border-left: 7px solid transparent;
-            border-right: 7px solid transparent;
-            border-top: 12px solid #333;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 5px;
-            transform: rotate(-90deg); /* Points right by default */
-        }
-        .triangle-toggle.toggled {
-            transform: rotate(0deg); /* Points down when toggled */
-        }
-        li.has-toggle {
-            list-style-type: none;
-        }
-    </style>
+    .toggle-icon {
+        cursor: pointer;
+        display: inline-block;
+    }
+    .triangle-toggle {
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 8px solid #333;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+        transform: rotate(-90deg); /* Points right by default */
+    }
+    .triangle-toggle.toggled {
+        transform: rotate(0deg); /* Points down when toggled */
+    }
+    li.has-toggle {
+        list-style-type: none;
+    }
+</style>
 </head>
 <body>
     <header>
@@ -127,6 +128,7 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index of ${currentPath}</title>
+    <link rel="stylesheet" href="/assets/normalize.css">
     <style>
         .toggle-icon {
             cursor: pointer;
@@ -135,9 +137,9 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
         .triangle-toggle {
             width: 0;
             height: 0;
-            border-left: 7px solid transparent;
-            border-right: 7px solid transparent;
-            border-top: 12px solid #333;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 8px solid #333;
             cursor: pointer;
             transition: transform 0.3s ease;
             display: inline-block;
