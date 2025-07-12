@@ -1,7 +1,7 @@
-import * as path from 'path';
+
 
 function generateBreadcrumbs(currentPath: string, isFile: boolean = false): string {
-    const segments = currentPath.split(path.sep).filter(Boolean);
+    const segments = currentPath.split('/').filter(Boolean);
     let breadcrumbsHtml = '<a href="/">Home</a>';
     let currentLink = '';
 
@@ -44,7 +44,7 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
 </head>
 <body>
     <header>
-        ${toggleableBreadcrumbs}
+        <nav>${breadcrumbs}</nav>
         <h1>${currentPath}</h1>
     </header>
     <main>
@@ -81,7 +81,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
             listItemsHtml += `
                 <li>
                     <span class="toggle-icon">▶</span> <a href="${item.link}">${item.name}/</a>
-                    <div class="toggle-content" style="display:none;" data-src="${item.link}">
+                    <div class="toggle-content" style="display:none;" data-src="${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>`;

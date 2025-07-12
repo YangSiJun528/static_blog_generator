@@ -95,7 +95,7 @@ function generateStaticBlog(projectRoot) {
             (_a = directoryStructure.get(currentRelativeOutputDir)) === null || _a === void 0 ? void 0 : _a.push({
                 name: path.basename(outputFileName),
                 type: 'file',
-                link: path.basename(outputFileName) // Link is just the filename for files in the same directory
+                link: outputFileName // Link is the full path relative to the output directory
             });
             // Add parent directories to their parent's listing
             let tempRelativeDir = currentRelativeOutputDir;
@@ -108,9 +108,7 @@ function generateStaticBlog(projectRoot) {
                 const existingDirEntry = (_b = directoryStructure.get(parentDir)) === null || _b === void 0 ? void 0 : _b.find(item => item.name === dirName && item.type === 'directory');
                 if (!existingDirEntry) {
                     (_c = directoryStructure.get(parentDir)) === null || _c === void 0 ? void 0 : _c.push({
-                        name: dirName,
-                        type: 'directory',
-                        link: dirName + '/index.html' // Link to the index.html of the subdirectory
+                        name: dirName, type: 'directory', link: path.join(parentDir, dirName, 'index.html').replace(/\\/g, '/')
                     });
                 }
                 tempRelativeDir = parentDir;

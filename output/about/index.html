@@ -20,7 +20,7 @@
     </header>
     <main>
         <ul>
-            <li><a href="about-me.html">about-me.html</a></li>
+            <li><a href="about/about-me.html">about-me.html</a></li>
         </ul>
     </main>
     <footer>
@@ -28,37 +28,57 @@
     </footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    function attachToggleListeners() {
         document.querySelectorAll('.toggle-icon').forEach(icon => {
-            icon.addEventListener('click', async () => {
-                const content = icon.parentElement.querySelector('.toggle-content');
-                if (content && content.classList.contains('toggle-content')) {
-                    const src = content.dataset.src;
-                    if (src && !content.dataset.loaded) {
-                        try {
-                            const response = await fetch(src);
-                            if (!response.ok) {
-                                throw new Error('HTTP error! status: ' + response.status);
-                            }
-                            const html = await response.text();
-                            content.innerHTML = html;
-                            content.dataset.loaded = 'true'; // Mark as loaded
-                        } catch (e) {
-                            console.error('Failed to load content:', e);
-                            content.innerHTML = '<p>Error loading content.</p>';
-                        }
-                    }
-
-                    if (content.style.display === 'none' || content.style.display === '') {
-                        content.style.display = 'block';
-                        icon.textContent = '▼';
-                    } else {
-                        content.style.display = 'none';
-                        icon.textContent = '▶';
-                    }
-                }
-            });
+            // Remove existing listener to prevent duplicates if called multiple times
+            icon.removeEventListener('click', handleToggleClick);
+            icon.addEventListener('click', handleToggleClick);
         });
+    }
+
+    async function handleToggleClick(event) {
+        const icon = event.currentTarget;
+        console.log('Toggle icon clicked:', icon);
+        const content = icon.parentElement.querySelector('.toggle-content');
+        if (content && content.classList.contains('toggle-content')) {
+            const src = content.dataset.src;
+            if (src && !content.dataset.loaded) {
+                console.log('Fetching:', src); // Log the src
+                try {
+                    const response = await fetch(src);
+                    if (!response.ok) {
+                        throw new Error('HTTP error! status: ' + response.status);
+                    }
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const mainElement = doc.querySelector('main');
+                    if (mainElement) {
+                        content.innerHTML = mainElement.innerHTML;
+                        attachToggleListeners(); // Re-attach listeners to newly loaded content
+                    } else {
+                        content.innerHTML = '<p>Error: Content could not be loaded.</p>';
+                    }
+                    content.dataset.loaded = 'true'; // Mark as loaded
+                } catch (e) {
+                    console.error('Failed to load content:', e);
+                    content.innerHTML = '<p>Error loading content.</p>';
+                }
+            }
+
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '▶';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM fully loaded and parsed. Attaching initial toggle listeners.');
+        attachToggleListeners();
     });
 </script>
 </body>
