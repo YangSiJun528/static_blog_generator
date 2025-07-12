@@ -43,10 +43,10 @@ export function addToggleFunctionality(htmlContent: string): string {
 
             if (content.style.display === 'none' || content.style.display === '') {
                 content.style.display = 'block';
-                icon.textContent = '▼';
+                icon.classList.add('toggled');
             } else {
                 content.style.display = 'none';
-                icon.textContent = '▶';
+                icon.classList.remove('toggled');
             }
         }
     }

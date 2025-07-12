@@ -38,7 +38,25 @@ function generateHtmlPage(title, content, currentPath) {
         .toggle-icon {
             cursor: pointer;
             display: inline-block;
-            width: 1em; /* Adjust as needed */
+        }
+        .triangle-toggle {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 12px solid #333;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+            transform: rotate(-90deg); /* Points right by default */
+        }
+        .triangle-toggle.toggled {
+            transform: rotate(0deg); /* Points down when toggled */
+        }
+        li.has-toggle {
+            list-style-type: none;
         }
     </style>
 </head>
@@ -78,8 +96,8 @@ function generateDirectoryListContent(currentPath, items, allDirectoryStructure)
     sortedItems.forEach(item => {
         if (item.type === 'directory') {
             listItemsHtml += `
-                <li>
-                    <span class="toggle-icon">▶</span> <a href="${item.link}">${item.name}/</a>
+                <li class="has-toggle">
+                    <span class="toggle-icon triangle-toggle"></span> <a href="${item.link}">${item.name}/</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -87,8 +105,8 @@ function generateDirectoryListContent(currentPath, items, allDirectoryStructure)
         }
         else {
             listItemsHtml += `
-                <li>
-                    <span class="toggle-icon">▶</span> <a href="${item.link}">${item.name}</a>
+                <li class="has-toggle">
+                    <span class="toggle-icon triangle-toggle"></span> <a href="${item.link}">${item.name}</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -113,7 +131,25 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
         .toggle-icon {
             cursor: pointer;
             display: inline-block;
-            width: 1em; /* Adjust as needed */
+        }
+        .triangle-toggle {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 12px solid #333;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+            transform: rotate(-90deg); /* Points right by default */
+        }
+        .triangle-toggle.toggled {
+            transform: rotate(0deg); /* Points down when toggled */
+        }
+        li.has-toggle {
+            list-style-type: none;
         }
     </style>
 </head>
