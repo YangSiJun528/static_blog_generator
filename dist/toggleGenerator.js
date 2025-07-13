@@ -13,6 +13,7 @@ function addToggleFunctionality(htmlContent) {
     }
 
     async function handleToggleClick(event) {
+        event.preventDefault();
         const icon = event.currentTarget;
         console.log('Toggle icon clicked:', icon);
         const content = icon.parentElement.querySelector('.toggle-content');
@@ -46,10 +47,10 @@ function addToggleFunctionality(htmlContent) {
 
             if (content.style.display === 'none' || content.style.display === '') {
                 content.style.display = 'block';
-                icon.classList.add('toggled');
+                icon.parentElement.querySelector('.triangle-toggle')?.classList.add('toggled');
             } else {
                 content.style.display = 'none';
-                icon.classList.remove('toggled');
+                icon.parentElement.querySelector('.triangle-toggle')?.classList.remove('toggled');
             }
         }
     }

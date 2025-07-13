@@ -41,19 +41,19 @@
         <ul>
             
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span><a href="/about/index.html">about/</a>
+                    <span class="triangle-toggle"></span><a class="toggle-icon" href="#">about/</a>&ensp;<a href="/about/index.html">📁</a>
                     <div class="toggle-content" style="display:none;" data-src="/about/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span><a href="/posts/index.html">posts/</a>
+                    <span class="triangle-toggle"></span><a class="toggle-icon" href="#">posts/</a>&ensp;<a href="/posts/index.html">📁</a>
                     <div class="toggle-content" style="display:none;" data-src="/posts/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span><a href="/test/index.html">test/</a>
+                    <span class="triangle-toggle"></span><a class="toggle-icon" href="#">test/</a>&ensp;<a href="/test/index.html">📁</a>
                     <div class="toggle-content" style="display:none;" data-src="/test/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -74,6 +74,7 @@
     }
 
     async function handleToggleClick(event) {
+        event.preventDefault();
         const icon = event.currentTarget;
         console.log('Toggle icon clicked:', icon);
         const content = icon.parentElement.querySelector('.toggle-content');
@@ -107,10 +108,10 @@
 
             if (content.style.display === 'none' || content.style.display === '') {
                 content.style.display = 'block';
-                icon.classList.add('toggled');
+                icon.parentElement.querySelector('.triangle-toggle')?.classList.add('toggled');
             } else {
                 content.style.display = 'none';
-                icon.classList.remove('toggled');
+                icon.parentElement.querySelector('.triangle-toggle')?.classList.remove('toggled');
             }
         }
     }

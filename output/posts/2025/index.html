@@ -42,7 +42,7 @@
             
             <li><a href="/posts/index.html">../</a></li>
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span><a href="/posts/2025/07/index.html">07/</a>
+                    <span class="triangle-toggle"></span><a class="toggle-icon" href="#">07/</a>&ensp;<a href="/posts/2025/07/index.html">📁</a>
                     <div class="toggle-content" style="display:none;" data-src="/posts/2025/07/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -63,6 +63,7 @@
     }
 
     async function handleToggleClick(event) {
+        event.preventDefault();
         const icon = event.currentTarget;
         console.log('Toggle icon clicked:', icon);
         const content = icon.parentElement.querySelector('.toggle-content');
@@ -96,10 +97,10 @@
 
             if (content.style.display === 'none' || content.style.display === '') {
                 content.style.display = 'block';
-                icon.classList.add('toggled');
+                icon.parentElement.querySelector('.triangle-toggle')?.classList.add('toggled');
             } else {
                 content.style.display = 'none';
-                icon.classList.remove('toggled');
+                icon.parentElement.querySelector('.triangle-toggle')?.classList.remove('toggled');
             }
         }
     }
