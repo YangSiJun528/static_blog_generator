@@ -65,7 +65,6 @@ function generateHtmlPage(title, content, currentPath) {
 <body>
     <header>
         <nav>${breadcrumbs}</nav>
-        <h1>${currentPath}</h1>
     </header>
     <main>
         ${content}
@@ -160,7 +159,6 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
 <body>
     <header>
         <nav>${breadcrumbs}</nav>
-        <h1>Index of ${currentPath}</h1>
     </header>
     <main>
         <ul>

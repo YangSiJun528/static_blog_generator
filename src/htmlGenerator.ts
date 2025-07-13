@@ -63,7 +63,6 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
 <body>
     <header>
         <nav>${breadcrumbs}</nav>
-        <h1>${currentPath}</h1>
     </header>
     <main>
         ${content}
@@ -169,7 +168,6 @@ export function generateDirectoryPageHtml(currentPath: string, items: DirectoryI
 <body>
     <header>
         <nav>${breadcrumbs}</nav>
-        <h1>Index of ${currentPath}</h1>
     </header>
     <main>
         <ul>
