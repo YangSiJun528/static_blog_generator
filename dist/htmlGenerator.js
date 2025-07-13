@@ -50,7 +50,8 @@ function generateHtmlPage(title, content, currentPath) {
         transition: transform 0.3s ease;
         display: inline-block;
         vertical-align: middle;
-        margin-right: 5px;
+        margin-right: 6px;
+        margin-left: -14px; /* Move the icon outside the text area like default markers */
         transform: rotate(-90deg); /* Points right by default */
     }
     .triangle-toggle.toggled {
@@ -98,7 +99,7 @@ function generateDirectoryListContent(currentPath, items, allDirectoryStructure)
         if (item.type === 'directory') {
             listItemsHtml += `
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span> <a href="${item.link}">${item.name}/</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="${item.link}">${item.name}/</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -107,7 +108,7 @@ function generateDirectoryListContent(currentPath, items, allDirectoryStructure)
         else {
             listItemsHtml += `
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span> <a href="${item.link}">${item.name}</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="${item.link}">${item.name}</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -144,7 +145,8 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
             transition: transform 0.3s ease;
             display: inline-block;
             vertical-align: middle;
-            margin-right: 5px;
+            margin-right: 6px;
+            margin-left: -14px; /* Move the icon outside the text area like default markers */
             transform: rotate(-90deg); /* Points right by default */
         }
         .triangle-toggle.toggled {

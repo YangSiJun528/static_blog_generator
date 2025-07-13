@@ -1,5 +1,3 @@
-
-
 function generateBreadcrumbs(currentPath: string, isFile: boolean = false): string {
     const segments = currentPath.split('/').filter(Boolean);
     let breadcrumbsHtml = '<a href="/">Home</a>';
@@ -50,7 +48,8 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
         transition: transform 0.3s ease;
         display: inline-block;
         vertical-align: middle;
-        margin-right: 5px;
+        margin-right: 6px;
+        margin-left: -14px; /* Move the icon outside the text area like default markers */
         transform: rotate(-90deg); /* Points right by default */
     }
     .triangle-toggle.toggled {
@@ -106,7 +105,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
         if (item.type === 'directory') {
             listItemsHtml += `
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span> <a href="${item.link}">${item.name}/</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="${item.link}">${item.name}/</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -114,7 +113,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
         } else {
             listItemsHtml += `
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span> <a href="${item.link}">${item.name}</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="${item.link}">${item.name}</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -155,7 +154,8 @@ export function generateDirectoryPageHtml(currentPath: string, items: DirectoryI
             transition: transform 0.3s ease;
             display: inline-block;
             vertical-align: middle;
-            margin-right: 5px;
+            margin-right: 6px;
+            margin-left: -14px; /* Move the icon outside the text area like default markers */
             transform: rotate(-90deg); /* Points right by default */
         }
         .triangle-toggle.toggled {

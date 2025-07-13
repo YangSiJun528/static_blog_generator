@@ -21,7 +21,8 @@
             transition: transform 0.3s ease;
             display: inline-block;
             vertical-align: middle;
-            margin-right: 5px;
+            margin-right: 6px;
+            margin-left: -14px; /* Move the icon outside the text area like default markers */
             transform: rotate(-90deg); /* Points right by default */
         }
         .triangle-toggle.toggled {
@@ -41,19 +42,19 @@
         <ul>
             
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span> <a href="about/index.html">about/</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="about/index.html">about/</a>
                     <div class="toggle-content" style="display:none;" data-src="/about/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span> <a href="posts/index.html">posts/</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="posts/index.html">posts/</a>
                     <div class="toggle-content" style="display:none;" data-src="/posts/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span> <a href="test/index.html">test/</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="test/index.html">test/</a>
                     <div class="toggle-content" style="display:none;" data-src="/test/index.html">
                         <!-- Content will be loaded dynamically here -->
                     </div>
