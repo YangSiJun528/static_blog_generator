@@ -6,8 +6,8 @@ function generateBreadcrumbs(currentPath: string, isFile: boolean = false): stri
     segments.forEach((segment, index) => {
         currentLink += '/' + segment;
         if (isFile && index === segments.length - 1) {
-            // For the file itself, don't link to index.html
-            breadcrumbsHtml += ` / ${segment}`;
+            // For the file itself, link to the HTML file
+            breadcrumbsHtml += ` / <a href="${currentLink}.html">${segment}</a>`;
         } else {
             breadcrumbsHtml += ` / <a href="${currentLink}/index.html">${segment}</a>`;
         }
