@@ -105,7 +105,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
         if (item.type === 'directory') {
             listItemsHtml += `
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span><a href="${item.link}">${item.name}/</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="/${item.link}">${item.name}/</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
@@ -113,7 +113,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
         } else {
             listItemsHtml += `
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span><a href="${item.link}">${item.name}</a>
+                    <span class="toggle-icon triangle-toggle"></span><a href="/${item.link}">${item.name}</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
