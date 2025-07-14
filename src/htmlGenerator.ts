@@ -1,3 +1,11 @@
+import {addToggleFunctionality} from "./toggleGenerator";
+
+interface DirectoryItem {
+    name: string;
+    type: 'file' | 'directory';
+    link: string;
+}
+
 function generateBreadcrumbs(currentPath: string, isFile: boolean = false): string {
     const segments = currentPath.split('/').filter(Boolean);
     let breadcrumbsHtml = '<a href="/">Home</a>';
@@ -6,7 +14,6 @@ function generateBreadcrumbs(currentPath: string, isFile: boolean = false): stri
     segments.forEach((segment, index) => {
         currentLink += '/' + segment;
         if (isFile && index === segments.length - 1) {
-            // For the file itself, link to the HTML file
             breadcrumbsHtml += ` / <a href="${currentLink}.html">${segment}</a>`;
         } else {
             breadcrumbsHtml += ` / <a href="${currentLink}/index.html">${segment}</a>`;
@@ -15,16 +22,7 @@ function generateBreadcrumbs(currentPath: string, isFile: boolean = false): stri
     return breadcrumbsHtml;
 }
 
-export function generateHtmlPage(title: string, content: string, currentPath: string): string {
-    const breadcrumbs = generateBreadcrumbs(currentPath, true);
-    // For markdown files, the breadcrumbs themselves are toggleable
-    const toggleableBreadcrumbs = `
-        <span class="toggle-icon">▶</span>
-        <div class="toggle-content" style="display:none;">
-            <nav>${breadcrumbs}</nav>
-        </div>
-    `;
-
+function generatePageHtml(title: string, content: string, breadcrumbs: string): string {
     const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -33,51 +31,36 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
     <link rel="stylesheet" href="/assets/normalize.css">
-        <style>
+    <style>
         :root {
             --text-color: #333333;
             --font-family: "Times New Roman", serif;
             --padding-base: 15px;
-            --content-width: 800px; /* New CSS variable for content width */
+            --content-width: 800px;
         }
-
         html, body {
-        }
-        
-        header nav {
-            font-size: 20px;
-        }
-        header div {
-            font-size: 14px;
-        }
-
-        body {
             height: 100%;
             margin: 0;
             font-family: var(--font-family);
             color: var(--text-color);
-            font-size: 18px; /* Base font size */
+            font-size: 18px;
             display: flex;
             flex-direction: column;
             background-color: #FFFBE6;
         }
-
         .container {
             width: var(--content-width);
-            margin: 0 auto; /* Center the container */
+            margin: 0 auto;
             padding: var(--padding-base);
             box-sizing: border-box;
-            flex: 1; /* Allow container to grow */
+            flex: 1;
             display: flex;
             flex-direction: column;
         }
-
         footer {
             text-align: center;
             font-size: 16px;
         }
-
-        /* Existing toggle styles */
         .toggle-icon {
             cursor: pointer;
             display: inline-block;
@@ -93,11 +76,11 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
             display: inline-block;
             vertical-align: middle;
             margin-right: 6px;
-            margin-left: -14px; /* Move the icon outside the text area like default markers */
-            transform: rotate(-90deg); /* Points right by default */
+            margin-left: -14px;
+            transform: rotate(-90deg);
         }
         .triangle-toggle.toggled {
-            transform: rotate(0deg); /* Points down when toggled */
+            transform: rotate(0deg);
         }
         li.has-toggle {
             list-style-type: none;
@@ -130,29 +113,23 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
         </footer>
     </div>
 </body>
-</html>
-`;
+</html>`;
     return addToggleFunctionality(html);
 }
 
-interface DirectoryItem {
-    name: string;
-    type: 'file' | 'directory';
-    link: string; // Link relative to the current index.html
+export function generateHtmlPage(title: string, content: string, currentPath: string): string {
+    const breadcrumbs = generateBreadcrumbs(currentPath, true);
+    return generatePageHtml(title, content, breadcrumbs);
 }
 
-// Generates only the <ul><li>...</li></ul> content for a directory listing
-function generateDirectoryListContent(currentPath: string, items: DirectoryItem[], allDirectoryStructure: Map<string, DirectoryItem[]>): string {
+function generateDirectoryListContent(currentPath: string, items: DirectoryItem[]): string {
     let listItemsHtml = '';
-
-    // Add parent directory link (../)
     const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
     if (currentPath !== '/') {
         listItemsHtml += `
             <li><a href="${parentPath === '' ? '/' : parentPath}/index.html">../</a></li>`;
     }
 
-    // Sort items: directories first, then files, both alphabetically
     const sortedItems = items.sort((a, b) => {
         if (a.type === 'directory' && b.type === 'file') return -1;
         if (a.type === 'file' && b.type === 'directory') return 1;
@@ -165,7 +142,6 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
                 <li class="has-toggle">
                     <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${item.name}/</a>&ensp;<a href="/${item.link}">📁</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
-                        <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>`;
         } else {
@@ -173,130 +149,16 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
                 <li class="has-toggle">
                     <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${item.name}/</a>&ensp;<a href="/${item.link}">📄</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link}">
-                        <!-- Content will be loaded dynamically here -->
                     </div>
                 </li>`;
         }
     });
 
-    return listItemsHtml;
+    return `<ul>${listItemsHtml}</ul>`;
 }
 
-import {addToggleFunctionality} from "./toggleGenerator";
-
-// Generates the full HTML page for a directory listing
-export function generateDirectoryPageHtml(currentPath: string, items: DirectoryItem[], allDirectoryStructure: Map<string, DirectoryItem[]>): string {
+export function generateDirectoryPageHtml(currentPath: string, items: DirectoryItem[]): string {
     const breadcrumbs = generateBreadcrumbs(currentPath, false);
-    const directoryListContent = generateDirectoryListContent(currentPath, items, allDirectoryStructure);
-
-    let html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index of ${currentPath}</title>
-    <link rel="stylesheet" href="/assets/normalize.css">
-        <style>
-        :root {
-            --text-color: #333333;
-            --font-family: "Times New Roman", serif;
-            --padding-base: 15px;
-            --content-width: 800px; /* New CSS variable for content width */
-        }
-
-        html, body {
-        }
-        
-        header nav {
-            font-size: 20px;
-        }
-        header div {
-            font-size: 14px;
-        }
-
-        body {
-            height: 100%;
-            margin: 0;
-            font-family: var(--font-family);
-            color: var(--text-color);
-            font-size: 18px; /* Base font size */
-            display: flex;
-            flex-direction: column;
-            background-color: #FFFBE6;
-        }
-
-        .container {
-            width: var(--content-width);
-            margin: 0 auto; /* Center the container */
-            padding: var(--padding-base);
-            box-sizing: border-box;
-            flex: 1; /* Allow container to grow */
-            display: flex;
-            flex-direction: column;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 16px;
-        }
-
-        /* Existing toggle styles */
-        .toggle-icon {
-            cursor: pointer;
-            display: inline-block;
-        }
-        .triangle-toggle {
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 8px solid #333;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 6px;
-            margin-left: -14px; /* Move the icon outside the text area like default markers */
-            transform: rotate(-90deg); /* Points right by default */
-        }
-        .triangle-toggle.toggled {
-            transform: rotate(0deg); /* Points down when toggled */
-        }
-        li.has-toggle {
-            list-style-type: none;
-        }
-        @media (max-width: 768px) {
-            .container {
-                width: 100%;
-            }
-            html, body {
-                font-size: 16px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <nav>${breadcrumbs}</nav>
-            <div style="margin-top: 10px;">
-                <a href="#" onclick="window.expandImmediateChildrenToggles(); return false;">열기</a>
-                /
-                <a href="#" onclick="window.collapseImmediateChildrenToggles(); return false;">닫기</a>
-            </div>
-        </header>
-        <main>
-            <ul>
-                ${directoryListContent}
-            </ul>
-        </main>
-        <footer>
-            <p>Generated by Static Blog Generator</p>
-        </footer>
-    </div>
-</body>
-</html>
-`;
-    return addToggleFunctionality(html);
+    const directoryListContent = generateDirectoryListContent(currentPath, items);
+    return generatePageHtml(`Index of ${currentPath}`, directoryListContent, breadcrumbs);
 }

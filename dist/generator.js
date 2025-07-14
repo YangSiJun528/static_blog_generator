@@ -137,7 +137,7 @@ function generateStaticBlog(projectRoot) {
         const fullOutputDirPath = path.join(outputDirPath, relativeOutputDir);
         fs.mkdirSync(fullOutputDirPath, { recursive: true }); // Ensure directory exists
         const currentPathForHtml = '/' + relativeOutputDir; // Path for HTML header/breadcrumbs
-        const indexHtmlContent = (0, htmlGenerator_1.generateDirectoryPageHtml)(currentPathForHtml, items, directoryStructure);
+        const indexHtmlContent = (0, htmlGenerator_1.generateDirectoryPageHtml)(currentPathForHtml, items);
         fs.writeFileSync(path.join(fullOutputDirPath, 'index.html'), indexHtmlContent);
         console.log(`Generated directory index: ${path.join(fullOutputDirPath, 'index.html')}`);
     });

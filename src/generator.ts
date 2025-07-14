@@ -122,7 +122,7 @@ export function generateStaticBlog(projectRoot: string): void {
         fs.mkdirSync(fullOutputDirPath, { recursive: true }); // Ensure directory exists
 
         const currentPathForHtml = '/' + relativeOutputDir; // Path for HTML header/breadcrumbs
-        const indexHtmlContent = generateDirectoryPageHtml(currentPathForHtml, items, directoryStructure);
+        const indexHtmlContent = generateDirectoryPageHtml(currentPathForHtml, items);
         fs.writeFileSync(path.join(fullOutputDirPath, 'index.html'), indexHtmlContent);
         console.log(`Generated directory index: ${path.join(fullOutputDirPath, 'index.html')}`);
     });
