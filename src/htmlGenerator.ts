@@ -112,7 +112,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
         } else {
             listItemsHtml += `
                 <li class="has-toggle">
-                    <span class="toggle-icon triangle-toggle"></span><a href="/${item.link}">${item.name}</a>
+                    <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${item.name}/</a>&ensp;<a href="/${item.link}">📄</a>
                     <div class="toggle-content" style="display:none;" data-src="/${item.link}">
                         <!-- Content will be loaded dynamically here -->
                     </div>
