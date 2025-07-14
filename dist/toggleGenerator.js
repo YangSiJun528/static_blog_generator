@@ -42,7 +42,7 @@ function addToggleFunctionality(htmlContent) {
                     const mainContent = doc.querySelector('main');
                     if (mainContent) {
                         content.innerHTML = mainContent.innerHTML;
-                        attachToggleListeners(); // Re-attach listeners to newly loaded content
+                        attachToggleListeners(content); // Re-attach listeners to newly loaded content within the specific content area
                     } else {
                         content.innerHTML = '<p>Error: Content could not be loaded.</p>';
                     }
@@ -63,8 +63,8 @@ function addToggleFunctionality(htmlContent) {
         ensureContentLoadedAndDisplay(event.currentTarget);
     }
 
-    function attachToggleListeners() {
-        document.querySelectorAll('.toggle-icon').forEach(icon => {
+    function attachToggleListeners(rootElement = document) {
+        rootElement.querySelectorAll('.toggle-icon').forEach(icon => {
             icon.removeEventListener('click', handleToggleClick); // Prevent duplicate listeners
             icon.addEventListener('click', handleToggleClick);
         });
