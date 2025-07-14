@@ -35,7 +35,7 @@ function generateHtmlPage(title, content, currentPath) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
     <link rel="stylesheet" href="/assets/normalize.css">
-    <style>
+        <style>
         :root {
             --text-color: #333333;
             --font-family: "Times New Roman", serif;
@@ -44,19 +44,28 @@ function generateHtmlPage(title, content, currentPath) {
         }
 
         html, body {
+        }
+        
+        header nav {
+            font-size: 20px;
+        }
+        header div {
+            font-size: 14px;
+        }
+
+        body {
             height: 100%;
             margin: 0;
             font-family: var(--font-family);
             color: var(--text-color);
-        }
-
-        body {
+            font-size: 18px; /* Base font size */
             display: flex;
             flex-direction: column;
+            background-color: #FFFBE6;
         }
 
         .container {
-            max-width: var(--content-width);
+            width: var(--content-width);
             margin: 0 auto; /* Center the container */
             padding: var(--padding-base);
             box-sizing: border-box;
@@ -65,26 +74,9 @@ function generateHtmlPage(title, content, currentPath) {
             flex-direction: column;
         }
 
-        header, main, footer {
-            padding: 0; /* Remove padding from children as container handles it */
-            margin: 0; /* Remove margin from children */
-        }
-
-        header {
-            /* No background-color, border-bottom or box-shadow */
-        }
-
-        main {
-            flex: 1; /* Take up remaining space */
-            line-height: 1.6;
-            /* No background-color, border or box-shadow */
-        }
-
         footer {
-            /* No background-color or border-top */
             text-align: center;
-            font-size: 0.9em;
-            color: #666666;
+            font-size: 16px;
         }
 
         /* Existing toggle styles */
@@ -111,6 +103,14 @@ function generateHtmlPage(title, content, currentPath) {
         }
         li.has-toggle {
             list-style-type: none;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            html, body {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -188,7 +188,7 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index of ${currentPath}</title>
     <link rel="stylesheet" href="/assets/normalize.css">
-    <style>
+        <style>
         :root {
             --text-color: #333333;
             --font-family: "Times New Roman", serif;
@@ -197,19 +197,28 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
         }
 
         html, body {
+        }
+        
+        header nav {
+            font-size: 20px;
+        }
+        header div {
+            font-size: 14px;
+        }
+
+        body {
             height: 100%;
             margin: 0;
             font-family: var(--font-family);
             color: var(--text-color);
-        }
-
-        body {
+            font-size: 18px; /* Base font size */
             display: flex;
             flex-direction: column;
+            background-color: #FFFBE6;
         }
 
         .container {
-            max-width: var(--content-width);
+            width: var(--content-width);
             margin: 0 auto; /* Center the container */
             padding: var(--padding-base);
             box-sizing: border-box;
@@ -218,26 +227,9 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
             flex-direction: column;
         }
 
-        header, main, footer {
-            padding: 0; /* Remove padding from children as container handles it */
-            margin: 0; /* Remove margin from children */
-        }
-
-        header {
-            /* No background-color, border-bottom or box-shadow */
-        }
-
-        main {
-            flex: 1; /* Take up remaining space */
-            line-height: 1.6;
-            /* No background-color, border or box-shadow */
-        }
-
         footer {
-            /* No background-color or border-top */
             text-align: center;
-            font-size: 0.9em;
-            color: #666666;
+            font-size: 16px;
         }
 
         /* Existing toggle styles */
@@ -264,6 +256,14 @@ function generateDirectoryPageHtml(currentPath, items, allDirectoryStructure) {
         }
         li.has-toggle {
             list-style-type: none;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            html, body {
+                font-size: 16px;
+            }
         }
     </style>
 </head>

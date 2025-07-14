@@ -42,15 +42,24 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
         }
 
         html, body {
+        }
+        
+        header nav {
+            font-size: 20px;
+        }
+        header div {
+            font-size: 14px;
+        }
+
+        body {
             height: 100%;
             margin: 0;
             font-family: var(--font-family);
             color: var(--text-color);
-        }
-
-        body {
+            font-size: 18px; /* Base font size */
             display: flex;
             flex-direction: column;
+            background-color: #FFFBE6;
         }
 
         .container {
@@ -65,7 +74,7 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
 
         footer {
             text-align: center;
-            font-size: 0.9em;
+            font-size: 16px;
         }
 
         /* Existing toggle styles */
@@ -92,6 +101,14 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
         }
         li.has-toggle {
             list-style-type: none;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            html, body {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -180,7 +197,7 @@ export function generateDirectoryPageHtml(currentPath: string, items: DirectoryI
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index of ${currentPath}</title>
     <link rel="stylesheet" href="/assets/normalize.css">
-    <style>
+        <style>
         :root {
             --text-color: #333333;
             --font-family: "Times New Roman", serif;
@@ -189,15 +206,24 @@ export function generateDirectoryPageHtml(currentPath: string, items: DirectoryI
         }
 
         html, body {
+        }
+        
+        header nav {
+            font-size: 20px;
+        }
+        header div {
+            font-size: 14px;
+        }
+
+        body {
             height: 100%;
             margin: 0;
             font-family: var(--font-family);
             color: var(--text-color);
-        }
-
-        body {
+            font-size: 18px; /* Base font size */
             display: flex;
             flex-direction: column;
+            background-color: #FFFBE6;
         }
 
         .container {
@@ -212,7 +238,7 @@ export function generateDirectoryPageHtml(currentPath: string, items: DirectoryI
 
         footer {
             text-align: center;
-            font-size: 0.9em;
+            font-size: 16px;
         }
 
         /* Existing toggle styles */
@@ -239,6 +265,14 @@ export function generateDirectoryPageHtml(currentPath: string, items: DirectoryI
         }
         li.has-toggle {
             list-style-type: none;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            html, body {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
