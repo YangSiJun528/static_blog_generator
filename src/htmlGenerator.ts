@@ -86,6 +86,15 @@ interface DirectoryItem {
 function generateDirectoryListContent(currentPath: string, items: DirectoryItem[], allDirectoryStructure: Map<string, DirectoryItem[]>): string {
     let listItemsHtml = '';
 
+    // Add expand/collapse all toggles
+    listItemsHtml += `
+        <li>
+            <a href="#" onclick="window.expandImmediateChildrenToggles(); return false;">열기</a>
+            /
+            <a href="#" onclick="window.collapseImmediateChildrenToggles(); return false;">닫기</a>
+        </li>
+    `;
+
     // Add parent directory link (../)
     const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
     if (currentPath !== '/') {
