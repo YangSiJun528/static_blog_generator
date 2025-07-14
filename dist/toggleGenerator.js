@@ -15,17 +15,22 @@ function addToggleFunctionality(htmlContent) {
     }
 
     async function ensureContentLoadedAndDisplay(iconElement, forceExpand = false) {
-        const content = iconElement.closest('.has-toggle') ? iconElement.closest('.has-toggle').querySelector('.toggle-content') : iconElement.nextElementSibling;
-        const triangle = iconElement.closest('.has-toggle') ? iconElement.closest('.has-toggle').querySelector('.triangle-toggle') : iconElement.previousElementSibling;
+        const liElement = iconElement.closest('.has-toggle');
+        if (!liElement) {
+            return;
+        }
+        const content = liElement.querySelector('.toggle-content');
+        const triangle = liElement.querySelector('.triangle-toggle');
 
-        if (!content || !triangle) return;
+        if (!content || !triangle) {
+            return;
+        }
 
         const isCurrentlyHidden = content.style.display === 'none' || content.style.display === '';
 
         if (isCurrentlyHidden || forceExpand) {
             const src = content.dataset.src;
             if (src && !content.dataset.loaded) {
-                console.log('Fetching URL:', src);
                 try {
                     const response = await fetch(src);
                     if (!response.ok) {
@@ -34,9 +39,9 @@ function addToggleFunctionality(htmlContent) {
                     const html = await response.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
-                    const mainElement = doc.querySelector('main');
-                    if (mainElement) {
-                        content.innerHTML = mainElement.innerHTML;
+                    const mainContent = doc.querySelector('main');
+                    if (mainContent) {
+                        content.innerHTML = mainContent.innerHTML;
                         attachToggleListeners(); // Re-attach listeners to newly loaded content
                     } else {
                         content.innerHTML = '<p>Error: Content could not be loaded.</p>';
@@ -66,7 +71,7 @@ function addToggleFunctionality(htmlContent) {
     }
 
     window.expandImmediateChildrenToggles = function() {
-        document.querySelectorAll('main li.has-toggle').forEach(li => {
+        document.querySelectorAll('main > ul > li.has-toggle').forEach(li => {
             const icon = li.querySelector('.toggle-icon');
             if (icon) {
                 ensureContentLoadedAndDisplay(icon, true); // Force expand and load
@@ -75,7 +80,7 @@ function addToggleFunctionality(htmlContent) {
     };
 
     window.collapseImmediateChildrenToggles = function() {
-        document.querySelectorAll('main li.has-toggle').forEach(li => {
+        document.querySelectorAll('main > ul > li.has-toggle').forEach(li => {
             const content = li.querySelector('.toggle-content');
             const triangle = li.querySelector('.triangle-toggle');
             if (content && triangle) {
@@ -85,7 +90,6 @@ function addToggleFunctionality(htmlContent) {
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM fully loaded and parsed. Attaching initial toggle listeners.');
         attachToggleListeners();
     });
 </script>

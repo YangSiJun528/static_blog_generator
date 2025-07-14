@@ -63,6 +63,11 @@ export function generateHtmlPage(title: string, content: string, currentPath: st
 <body>
     <header>
         <nav>${breadcrumbs}</nav>
+        <div style="margin-top: 10px;">
+            <a href="#" onclick="window.expandImmediateChildrenToggles(); return false;">열기</a>
+            /
+            <a href="#" onclick="window.collapseImmediateChildrenToggles(); return false;">닫기</a>
+        </div>
     </header>
     <main>
         ${content}
@@ -85,15 +90,6 @@ interface DirectoryItem {
 // Generates only the <ul><li>...</li></ul> content for a directory listing
 function generateDirectoryListContent(currentPath: string, items: DirectoryItem[], allDirectoryStructure: Map<string, DirectoryItem[]>): string {
     let listItemsHtml = '';
-
-    // Add expand/collapse all toggles
-    listItemsHtml += `
-        <li>
-            <a href="#" onclick="window.expandImmediateChildrenToggles(); return false;">열기</a>
-            /
-            <a href="#" onclick="window.collapseImmediateChildrenToggles(); return false;">닫기</a>
-        </li>
-    `;
 
     // Add parent directory link (../)
     const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
@@ -177,6 +173,11 @@ export function generateDirectoryPageHtml(currentPath: string, items: DirectoryI
 <body>
     <header>
         <nav>${breadcrumbs}</nav>
+        <div style="margin-top: 10px;">
+            <a href="#" onclick="window.expandImmediateChildrenToggles(); return false;">열기</a>
+            /
+            <a href="#" onclick="window.collapseImmediateChildrenToggles(); return false;">닫기</a>
+        </div>
     </header>
     <main>
         <ul>
