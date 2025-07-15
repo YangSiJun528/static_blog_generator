@@ -8,8 +8,8 @@ interface MarkdownParseOptions {
 
 export function parseMarkdown(markdownContent: string, options: MarkdownParseOptions): string {
     const md = new MarkdownIt({
-        html: true, // Enable HTML tags in source
-        linkify: true, // Autoconvert URL-like texts to links
+        html: true, // Enable HTML tags in a source
+        linkify: true, // Auto convert URL-like texts to links
         typographer: true, // Enable some smart quotes and dashes
     });
 
@@ -20,16 +20,12 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
             const hrefIndex = token.attrIndex('href');
             if (hrefIndex >= 0 && token.attrs) {
                 const href = token.attrs[hrefIndex][1];
-                if (typeof href !== 'string') {
-                    console.warn(`Href is not a string: ${href}. Skipping conversion.`);
-                    return self.renderToken(tokens, idx, options);
-                }
 
                 const parseOptions = env as MarkdownParseOptions; // Cast env to our custom options interface
 
                 // Check if it's an internal .md link and not an external URL
                 // ref: https://regex101.com/r/BGxJ6n/1
-                const isExternalUrl = /^[a-z][a-z0-9\+\-.]*:/.test(href) || href.startsWith('//')
+                const isExternalUrl = /^[a-z][a-z0-9+\-.]*:/.test(href) || href.startsWith('//')
                 if (!isExternalUrl) {
                     let sourceLinkedMdPath: string;
 
@@ -39,11 +35,11 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
                     const currentFileDir = path.dirname(currentFileAbsPath);
 
                     if (href.startsWith('./') || href.startsWith('../')) {
-                        // Link is relative to the current file's directory
+                        // The Link is relative to the current file's directory
                         console.log(`DEBUG: path.resolve args: currentFileDir=${currentFileDir}, href=${href}`);
                         sourceLinkedMdPath = path.resolve(currentFileDir, href);
                     } else {
-                        // Assume link is relative to the notesRoot (Obsidian-like vault root linking)
+                        // Assume a link is relative to the notesRoot (Obsidian-like vault root linking)
                         console.log(`DEBUG: path.join args: notesRoot=${parseOptions.notesRoot}, href=${href}`);
                         sourceLinkedMdPath = path.join(parseOptions.notesRoot, href);
                     }
