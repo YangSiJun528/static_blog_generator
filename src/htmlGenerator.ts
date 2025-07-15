@@ -26,7 +26,7 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
     <link rel="stylesheet" href="/assets/normalize.css">
-    <link href="https://cdn.jsdelivr.net/gh/naver/d2coding-font/d2coding.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/naver/d2coding-font/d2coding.css">
     <style>
         :root {
             --primary-bg-color: #F8F8F8; /* Soft white background */
@@ -141,7 +141,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
     const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
     if (currentPath !== '/') {
         listItemsHtml += `
-            <li><a href="${parentPath === '' ? '/' : parentPath}/index.html">../</a></li>`;
+            <li><a href="${parentPath === '' ? '' : parentPath}/index.html">../</a></li>`;
     }
 
     const sortedItems = items.sort((a, b) => {
