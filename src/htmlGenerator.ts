@@ -154,18 +154,20 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
     });
 
     sortedItems.forEach(item => {
-        const [icon, dataSrc] = (() => {
+        const [icon, dataSrc, content] = (() => {
             switch (item.type) {
                 case 'directory':
-                    return ['📁', item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'];
+                    return ['📁',
+                        item.link.endsWith('/index.html') ? item.link : item.link + '/index.html',
+                        item.name + '/'];
                 case 'file':
-                    return ['📄', item.link];
+                    return ['📄', item.link, item.name];
             }
         })();
 
         listItemsHtml += `
         <li class="has-toggle">
-            <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${item.name}/</a>&ensp;<a href="/${item.link}">${icon}</a>
+            <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${content}</a>&ensp;<a href="/${item.link}">${icon}</a>
             <div class="toggle-content" style="display:none;" data-src="/${dataSrc}">
             </div>
         </li>`;
