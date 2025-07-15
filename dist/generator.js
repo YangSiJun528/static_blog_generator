@@ -65,8 +65,8 @@ function generateStaticBlog(projectRoot) {
         (0, fileOperations_1.copyDirectory)(filesDirPath, path.join(outputDirPath, FILES_DIR_NAME));
     }
     // Copy normalize.css to output assets
-    const normalizeCssPath = path.join(projectRoot, 'src', 'style', 'normalize.css');
-    const outputCssDir = path.join(outputDirPath, ASSETS_DIR_NAME, 'css');
+    const normalizeCssPath = path.join(projectRoot, ASSETS_DIR_NAME, 'normalize.css');
+    const outputCssDir = path.join(outputDirPath, ASSETS_DIR_NAME);
     if (!fs.existsSync(outputCssDir)) {
         fs.mkdirSync(outputCssDir, { recursive: true });
     }
