@@ -37,9 +37,19 @@ export function addToggleFunctionality(htmlContent: string): string {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
                     const mainContent = doc.querySelector('main');
+
                     if (mainContent) {
+                        const loadedContentBaseUrl = new URL(src, window.location.href);
+                        mainContent.querySelectorAll('a').forEach(a => {
+                            const href = a.getAttribute('href');
+                            if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('/')) {
+                                const absoluteUrl = new URL(href, loadedContentBaseUrl);
+                                a.href = absoluteUrl.href;
+                            }
+                        });
+
                         content.innerHTML = mainContent.innerHTML;
-                        attachToggleListeners(content); // Re-attach listeners to newly loaded content within the specific content area
+                        attachToggleListeners(content);
                     } else {
                         content.innerHTML = '<p>Error: Content could not be loaded.</p>';
                     }
