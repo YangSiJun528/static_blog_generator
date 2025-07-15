@@ -3,20 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateHtmlPage = generateHtmlPage;
 exports.generateDirectoryPageHtml = generateDirectoryPageHtml;
 const toggleGenerator_1 = require("./toggleGenerator");
-function generateBreadcrumbs(currentPath, isFile = false) {
-    const segments = currentPath.split('/').filter(Boolean);
-    let breadcrumbsHtml = '<a href="/">Home</a>';
-    let currentLink = '';
-    segments.forEach((segment, index) => {
-        currentLink += '/' + segment;
-        if (isFile && index === segments.length - 1) {
-            breadcrumbsHtml += ` / <a href="${currentLink}.html">${segment}</a>`;
-        }
-        else {
-            breadcrumbsHtml += ` / <a href="${currentLink}/index.html">${segment}</a>`;
-        }
-    });
-    return breadcrumbsHtml;
+function generateHtmlPage(title, content, currentPath) {
+    const breadcrumbs = generateBreadcrumbs(currentPath, true);
+    return generatePageHtml(title, content, breadcrumbs);
+}
+function generateDirectoryPageHtml(currentPath, items) {
+    const breadcrumbs = generateBreadcrumbs(currentPath, false);
+    const directoryListContent = generateDirectoryListContent(currentPath, items);
+    return generatePageHtml(`Index of ${currentPath}`, directoryListContent, breadcrumbs);
 }
 function generatePageHtml(title, content, breadcrumbs) {
     const html = `
@@ -52,6 +46,12 @@ function generatePageHtml(title, content, breadcrumbs) {
             flex: 1;
             display: flex;
             flex-direction: column;
+        }
+        header nav {
+            font-size: 20px;
+        }
+        header .list-toggle-btn {
+            font-size: 14px;
         }
         footer {
             text-align: center;
@@ -95,7 +95,7 @@ function generatePageHtml(title, content, breadcrumbs) {
     <div class="container">
         <header>
             <nav>${breadcrumbs}</nav>
-            <div style="margin-top: 10px;">
+            <div class="list-toggle-btn" style="margin-top: 10px;">
                 <a href="#" onclick="window.expandImmediateChildrenToggles(); return false;">열기</a>
                 /
                 <a href="#" onclick="window.collapseImmediateChildrenToggles(); return false;">닫기</a>
@@ -112,9 +112,20 @@ function generatePageHtml(title, content, breadcrumbs) {
 </html>`;
     return (0, toggleGenerator_1.addToggleFunctionality)(html);
 }
-function generateHtmlPage(title, content, currentPath) {
-    const breadcrumbs = generateBreadcrumbs(currentPath, true);
-    return generatePageHtml(title, content, breadcrumbs);
+function generateBreadcrumbs(currentPath, isFile = false) {
+    const segments = currentPath.split('/').filter(Boolean);
+    let breadcrumbsHtml = '<a href="/">Home</a>';
+    let currentLink = '';
+    segments.forEach((segment, index) => {
+        currentLink += '/' + segment;
+        if (isFile && index === segments.length - 1) {
+            breadcrumbsHtml += ` / <a href="${currentLink}.html">${segment}</a>`;
+        }
+        else {
+            breadcrumbsHtml += ` / <a href="${currentLink}/index.html">${segment}</a>`;
+        }
+    });
+    return breadcrumbsHtml;
 }
 function generateDirectoryListContent(currentPath, items) {
     let listItemsHtml = '';
@@ -128,30 +139,26 @@ function generateDirectoryListContent(currentPath, items) {
             return -1;
         if (a.type === 'file' && b.type === 'directory')
             return 1;
-        return a.name.localeCompare(b.name);
+        return a.name.localeCompare(b.name, undefined, {
+            numeric: true,
+            sensitivity: 'base'
+        });
     });
     sortedItems.forEach(item => {
-        if (item.type === 'directory') {
-            listItemsHtml += `
-                <li class="has-toggle">
-                    <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${item.name}/</a>&ensp;<a href="/${item.link}">📁</a>
-                    <div class="toggle-content" style="display:none;" data-src="/${item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'}">
-                    </div>
-                </li>`;
-        }
-        else {
-            listItemsHtml += `
-                <li class="has-toggle">
-                    <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${item.name}/</a>&ensp;<a href="/${item.link}">📄</a>
-                    <div class="toggle-content" style="display:none;" data-src="/${item.link}">
-                    </div>
-                </li>`;
-        }
+        const [icon, dataSrc] = (() => {
+            switch (item.type) {
+                case 'directory':
+                    return ['📁', item.link.endsWith('/index.html') ? item.link : item.link + '/index.html'];
+                case 'file':
+                    return ['📄', item.link];
+            }
+        })();
+        listItemsHtml += `
+        <li class="has-toggle">
+            <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${item.name}/</a>&ensp;<a href="/${item.link}">${icon}</a>
+            <div class="toggle-content" style="display:none;" data-src="/${dataSrc}">
+            </div>
+        </li>`;
     });
     return `<ul>${listItemsHtml}</ul>`;
-}
-function generateDirectoryPageHtml(currentPath, items) {
-    const breadcrumbs = generateBreadcrumbs(currentPath, false);
-    const directoryListContent = generateDirectoryListContent(currentPath, items);
-    return generatePageHtml(`Index of ${currentPath}`, directoryListContent, breadcrumbs);
 }

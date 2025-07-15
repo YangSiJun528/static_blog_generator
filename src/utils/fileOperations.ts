@@ -1,10 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-export function copyFile(source: string, destination: string): void {
-    fs.copyFileSync(source, destination);
-}
-
 export function copyDirectory(source: string, destination: string): void {
     fs.mkdirSync(destination, { recursive: true });
     fs.readdirSync(source, { withFileTypes: true }).forEach(dirent => {
@@ -17,4 +13,8 @@ export function copyDirectory(source: string, destination: string): void {
             fs.copyFileSync(srcPath, destPath);
         }
     });
+}
+
+export function copyFile(source: string, destination: string): void {
+    fs.copyFileSync(source, destination);
 }

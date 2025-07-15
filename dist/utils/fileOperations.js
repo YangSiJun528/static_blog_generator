@@ -33,13 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.copyFile = copyFile;
 exports.copyDirectory = copyDirectory;
+exports.copyFile = copyFile;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-function copyFile(source, destination) {
-    fs.copyFileSync(source, destination);
-}
 function copyDirectory(source, destination) {
     fs.mkdirSync(destination, { recursive: true });
     fs.readdirSync(source, { withFileTypes: true }).forEach(dirent => {
@@ -52,4 +49,7 @@ function copyDirectory(source, destination) {
             fs.copyFileSync(srcPath, destPath);
         }
     });
+}
+function copyFile(source, destination) {
+    fs.copyFileSync(source, destination);
 }
