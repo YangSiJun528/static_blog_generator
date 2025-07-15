@@ -29,7 +29,8 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
     <link href="https://cdn.jsdelivr.net/gh/naver/d2coding-font/d2coding.css" rel="stylesheet">
     <style>
         :root {
-            --text-color: #333333;
+            --primary-bg-color: #F8F8F8; /* Soft white background */
+            --text-color: #333333; /* Dark grey for text */
             --font-family: 'D2Coding', monospace, serif;
             --padding-base: 15px;
             --content-width: 800px;
@@ -42,7 +43,7 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
             font-size: 16px;
             display: flex;
             flex-direction: column;
-            background-color: #FFFBE6;
+            background-color: var(--primary-bg-color);
         }
         .container {
             width: var(--content-width);
@@ -72,7 +73,7 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
             height: 0;
             border-left: 4px solid transparent;
             border-right: 4px solid transparent;
-            border-top: 8px solid #333;
+            border-top: 6px solid #333;
             cursor: pointer;
             transition: transform 0.3s ease;
             display: inline-block;
