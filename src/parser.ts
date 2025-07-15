@@ -1,5 +1,4 @@
 import MarkdownIt from 'markdown-it';
-import { applyObsidianLinksPlugin } from './markdown/obsidianLinkConverter';
 
 interface MarkdownParseOptions {
     notesRoot: string;
@@ -12,6 +11,5 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
         linkify: true, // Autoconvert URL-like texts to links
         typographer: true, // Enable some smart quotes and dashes
     });
-    applyObsidianLinksPlugin(md, options); // Apply the plugin to this md instance
     return md.render(markdownContent);
 }
