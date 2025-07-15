@@ -27,8 +27,10 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
 
                 const parseOptions = env as MarkdownParseOptions; // Cast env to our custom options interface
 
-                // Check if it's an internal .md link
-                if (href.endsWith('.md')) {
+                // Check if it's an internal .md link and not an external URL
+                // ref: https://regex101.com/r/BGxJ6n/1
+                const isExternalUrl = /^[a-z][a-z0-9\+\-.]*:/.test(href) || href.startsWith('//')
+                if (!isExternalUrl) {
                     let sourceLinkedMdPath: string;
 
                     // Determine the base directory for resolving the link
@@ -46,11 +48,6 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
                         sourceLinkedMdPath = path.join(parseOptions.notesRoot, href);
                     }
 
-                    if (typeof sourceLinkedMdPath !== 'string') {
-                        console.warn(`sourceLinkedMdPath is not a string: ${sourceLinkedMdPath}. Skipping conversion.`);
-                        return self.renderToken(tokens, idx, options);
-                    }
-
                     // Ensure the resolved path is still within the notes directory
                     // This prevents links from escaping the notes directory and causing unexpected behavior
                     if (!sourceLinkedMdPath.startsWith(parseOptions.notesRoot)) {
@@ -62,32 +59,15 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
                     console.log(`DEBUG: path.relative args: notesRoot=${parseOptions.notesRoot}, sourceLinkedMdPath=${sourceLinkedMdPath}`);
                     const relativeLinkedMdPathFromNotes = path.relative(parseOptions.notesRoot, sourceLinkedMdPath);
 
-                    if (typeof relativeLinkedMdPathFromNotes !== 'string') {
-                        console.warn(`relativeLinkedMdPathFromNotes is not a string: ${relativeLinkedMdPathFromNotes}. Skipping conversion.`);
-                        return self.renderToken(tokens, idx, options);
-                    }
-
                     // Convert to the corresponding output HTML path (relative to output directory)
                     const relativeLinkedHtmlPathFromOutput = relativeLinkedMdPathFromNotes.replace(/\.md$/, '.html');
-
-                    if (typeof relativeLinkedHtmlPathFromOutput !== 'string') {
-                        console.warn(`relativeLinkedHtmlPathFromOutput is not a string: ${relativeLinkedHtmlPathFromOutput}. Skipping conversion.`);
-                        return self.renderToken(tokens, idx, options);
-                    }
 
                     // Determine the relative path from the current generated HTML file to the target HTML output file
                     const currentHtmlRelativePathFromOutput = parseOptions.currentFileRelativePath.replace(/\.md$/, '.html');
                     const currentHtmlDirFromOutput = path.dirname(currentHtmlRelativePathFromOutput);
 
-                    if (typeof currentHtmlDirFromOutput !== 'string') {
-                        console.warn(`currentHtmlDirFromOutput is not a string: ${currentHtmlDirFromOutput}. Skipping conversion.`);
-                        return self.renderToken(tokens, idx, options);
-                    }
-
-                    const finalHref = path.relative(currentHtmlDirFromOutput, relativeLinkedHtmlPathFromOutput);
-
                     // Update the href attribute
-                    token.attrs[hrefIndex][1] = finalHref;
+                    token.attrs[hrefIndex][1] = path.relative(currentHtmlDirFromOutput, relativeLinkedHtmlPathFromOutput);
                 }
             }
             // Pass through to default renderer for other links
