@@ -21,10 +21,11 @@ function generatePageHtml(title, content, breadcrumbs) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
     <link rel="stylesheet" href="/assets/normalize.css">
+    <link href="https://cdn.jsdelivr.net/gh/naver/d2coding-font/d2coding.css" rel="stylesheet">
     <style>
         :root {
             --text-color: #333333;
-            --font-family: "Times New Roman", serif;
+            --font-family: 'D2Coding', monospace, serif;
             --padding-base: 15px;
             --content-width: 800px;
         }
@@ -33,7 +34,7 @@ function generatePageHtml(title, content, breadcrumbs) {
             margin: 0;
             font-family: var(--font-family);
             color: var(--text-color);
-            font-size: 18px;
+            font-size: 16px;
             display: flex;
             flex-direction: column;
             background-color: #FFFBE6;
@@ -55,7 +56,7 @@ function generatePageHtml(title, content, breadcrumbs) {
         }
         footer {
             text-align: center;
-            font-size: 16px;
+            font-size: 14px;
         }
         .toggle-icon {
             cursor: pointer;
@@ -86,7 +87,7 @@ function generatePageHtml(title, content, breadcrumbs) {
                 width: 100%;
             }
             html, body {
-                font-size: 16px;
+                font-size: 14px;
             }
         }
     </style>
