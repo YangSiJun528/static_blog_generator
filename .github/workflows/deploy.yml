@@ -1,0 +1,53 @@
+name: Deploy Static Blog to GitHub Pages
+
+on:
+  push:
+    branches:
+      - new-main
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '21' # 프로젝트에 맞는 Node.js 버전으로 변경
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build and Generate Static Blog
+      run: npm start # prestart 스크립트가 tsc를 실행하고, start 스크립트가 generator를 실행합니다.
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./output # 생성된 정적 파일이 있는 디렉토리
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
