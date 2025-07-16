@@ -29,6 +29,7 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/naver/d2coding-font/d2coding.css">
     <style>
         :root {
+            font-size: 16px; /* Base font size for rem units */
             --primary-bg-color: #F8F8F8; /* Soft white background */
             --text-color: #333333; /* Dark grey for text */
             --link-color: #0040FFFF; /* Blue link color */
@@ -51,7 +52,7 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
             margin: 0;
             font-family: var(--font-family);
             color: var(--text-color);
-            font-size: 16px;
+            font-size: 1rem;
             display: flex;
             flex-direction: column;
             background-color: var(--primary-bg-color);
@@ -66,14 +67,14 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
             flex-direction: column;
         }
         header nav {
-            font-size: 20px;
+            font-size: 1.25rem; 
         }
         header .list-toggle-btn {
-            font-size: 14px;
+            font-size: 0.875rem;
         }
         footer {
             text-align: center;
-            font-size: 14px;
+            font-size: 0.875rem; 
         }
         .toggle-icon {
             cursor: pointer;
@@ -82,9 +83,9 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
         .triangle-toggle {
             width: 0;
             height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 6px solid #333;
+            border-left: 0.25rem solid transparent;
+            border-right: 0.25rem solid transparent;
+            border-top: 0.375rem solid #333;
             cursor: pointer;
             transition: transform 0.3s ease;
             display: inline-block;
@@ -99,12 +100,16 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
         li.has-toggle {
             list-style-type: none;
         }
+        .file-icon {
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
         @media (max-width: 768px) {
+            :root {
+                font-size: 14px;
+            }
             .container {
                 width: 100%;
-            }
-            html, body {
-                font-size: 14px;
             }
         }
     </style>
@@ -178,7 +183,7 @@ function generateDirectoryListContent(currentPath: string, items: DirectoryItem[
 
         listItemsHtml += `
         <li class="has-toggle">
-            <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${content}</a>&ensp;<a href="/${item.link}">${icon}</a>
+            <span class="triangle-toggle"></span><a class="toggle-icon" href="#">${content}</a>&ensp;<a class="file-icon" href="/${item.link}">${icon}</a>
             <div class="toggle-content" style="display:none;" data-src="/${dataSrc}">
             </div>
         </li>`;
