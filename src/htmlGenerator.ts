@@ -66,6 +66,9 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
             display: flex;
             flex-direction: column;
         }
+        main {
+            flex-grow: 1;
+        }
         header nav {
             font-size: 1.25rem; 
         }
@@ -101,7 +104,7 @@ function generatePageHtml(title: string, content: string, breadcrumbs: string): 
             list-style-type: none;
         }
         .file-icon {
-            font-size: 1.2rem;
+            font-size: 1rem;
             vertical-align: middle;
         }
         @media (max-width: 768px) {
