@@ -9,6 +9,7 @@ import { addToggleFunctionality } from './toggleGenerator';
 const NOTES_DIR_NAME = 'notes';
 const FILES_DIR_NAME = 'files';
 const ASSETS_DIR_NAME = 'assets';
+const STATICS_DIR_NAME = 'statics'; // New constant for static files
 const OUTPUT_DIR_NAME = 'output';
 
 interface DirectoryItem {
@@ -40,6 +41,12 @@ export function generateStaticBlog(projectRoot: string): void {
     if (fs.existsSync(filesDirPath)) {
         copyDirectory(filesDirPath, path.join(outputDirPath, FILES_DIR_NAME));
     }
+
+    // Copy static files to output directory
+    const staticsDirPath = path.join(projectRoot, STATICS_DIR_NAME);
+    if (fs.existsSync(staticsDirPath)) {
+        copyDirectory(staticsDirPath, outputDirPath);
+    }
     // Copy normalize.css to output assets
     const normalizeCssPath = path.join(projectRoot, ASSETS_DIR_NAME, 'normalize.css');
     const outputCssDir = path.join(outputDirPath, ASSETS_DIR_NAME);
@@ -50,7 +57,7 @@ export function generateStaticBlog(projectRoot: string): void {
         fs.copyFileSync(normalizeCssPath, path.join(outputCssDir, 'normalize.css'));
     }
 
-    // 2. Traverse notes directory, parse markdown, and generate HTML
+    // 2. Traverse note directory, parse markdown, and generate HTML
     traverseDirectory(notesDirPath, (filePath: string) => {
         if (filePath.endsWith('.md')) {
             const relativePathFromNotes = path.relative(notesDirPath, filePath); // e.g., '2025/07/first-post.md'
@@ -111,7 +118,7 @@ export function generateStaticBlog(projectRoot: string): void {
             }
 
         } else {
-            // Throw an error if a non-markdown file is found in the notes directory
+            // Throw an error if a non-markdown file is found in the note directory
             throw new Error(`Non-markdown file found in notes directory: ${filePath}. Only .md files are allowed.`);
         }
     });

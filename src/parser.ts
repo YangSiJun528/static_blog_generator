@@ -44,8 +44,8 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
                         sourceLinkedMdPath = path.join(parseOptions.notesRoot, href);
                     }
 
-                    // Ensure the resolved path is still within the notes directory
-                    // This prevents links from escaping the notes directory and causing unexpected behavior
+                    // Ensure the resolved path is still within the note directory
+                    // This prevents links from escaping the note directory and causing unexpected behavior
                     if (!sourceLinkedMdPath.startsWith(parseOptions.notesRoot)) {
                         console.warn(`Link ${href} resolves outside notes directory: ${sourceLinkedMdPath}. Skipping conversion.`);
                         return self.renderToken(tokens, idx, options);

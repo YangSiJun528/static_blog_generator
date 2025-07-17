@@ -21,7 +21,7 @@ function generatePageHtml(title, content, breadcrumbs) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
     <link rel="stylesheet" href="/assets/normalize.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/naver/d2coding-font/d2coding.css">
+    <link rel="stylesheet" href="/assets/d2coding-subset.css">
     <style>
         :root {
             font-size: 16px; /* Base font size for rem units */
