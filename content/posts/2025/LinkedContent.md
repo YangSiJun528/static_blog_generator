@@ -8,4 +8,4 @@ This is the content that will be displayed when the inline toggle is expanded.
 
 You can put any Markdown content here.
 
-[Inline Toggle Plugin Demo](notes/obsidian/Inline%20Toggle%20Plugin%20Demo.md)
+[Inline Toggle Plugin Demo](obsidian/Inline%20Toggle%20Plugin%20Demo.md)

@@ -8,8 +8,8 @@ Node.js와 TypeScript를 기반으로 구축되었습니다.
 
 ## 주요 기능
 
-- Markdown to HTML 변환:  `notes` 디렉토리의 Markdown 파일을 읽어 HTML 페이지로 변환합니다.
-- 정적 파일 처리: `assets`, `files`, `statics` 등의 파일을 포함한 결과물을 생성합니다.
+- Markdown to HTML 변환:  `content` 디렉토리의 Markdown 파일을 읽어 HTML 페이지로 변환합니다.
+- 정적 파일 처리: `assets`, `statics` 등의 파일을 포함한 결과물을 생성합니다.
 - 디렉토리 인덱스 페이지: 각 디렉토리의 내용을 나열하는 `index.html` 파일을 자동으로 생성합니다. 다른 폴더와 파일 내용을 미리 열어볼 수 있습니다.
 
 ## 왜 디렉토리 구조인가요?

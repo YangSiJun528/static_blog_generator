@@ -6,10 +6,11 @@
 .github/
 └── workflows/             # GitHub Actions 워크플로우 정의 (예: deploy.yml)
 assets/                    # 웹사이트에 사용되는 정적 자산 (CSS, 이미지 등)
-files/                     # 블로그 게시물에 포함될 수 있는 사용자 파일 (예: 이미지)
-notes/                     # Markdown 형식의 블로그 게시물 및 노트 원본
+content/                   # Markdown 형식의 블로그 게시물 및 노트 원본
 ├── about/
 │   └── about-me.md
+├── files/
+│   └── ...
 ├── obsidian/
 │   └── ...
 └── posts/
@@ -39,8 +40,7 @@ tsconfig.json              # TypeScript 컴파일러 설정
 
 -   **`.github/workflows/`**: GitHub Actions 워크플로우 파일이 위치합니다. `deploy.yml`은 코드가 `main` 브랜치에 푸시될 때마다 정적 블로그를 빌드하고 GitHub Pages에 배포하는 역할을 합니다.
 -   **`assets/`**: 웹사이트의 전역 CSS 파일(`normalize.css`)과 같은 공통 자산이 포함됩니다. 이 파일들은 빌드 시 `output/assets/`로 복사됩니다.
--   **`files/`**: 블로그 게시물에서 참조될 수 있는 이미지나 기타 파일들이 위치합니다. 이 파일들은 빌드 시 `output/files/`로 복사됩니다.
--   **`notes/`**: 블로그의 모든 Markdown 원본 파일이 저장되는 곳입니다. 이 디렉토리의 구조가 최종 웹사이트의 URL 구조를 결정합니다.
+-   **`content/`**: 블로그의 모든 Markdown 원본 파일과 관련 파일(이미지 등)이 저장되는 곳입니다. 이 디렉토리의 구조가 최종 웹사이트의 URL 구조를 결정합니다.
 -   **`output/`**: `npm start` 명령을 통해 생성된 최종 정적 웹사이트 파일들이 저장되는 디렉토리입니다. 이 디렉토리의 내용이 GitHub Pages에 배포됩니다.
 -   **`statics/`**: `robots.txt`와 같이 웹사이트의 루트 경로에 직접 위치해야 하는 정적 파일들을 위한 디렉토리입니다. 이 디렉토리의 내용은 빌드 시 `output/`의 최상위로 복사됩니다.
 -   **`src/`**: 프로젝트의 모든 TypeScript 소스 코드가 포함됩니다.

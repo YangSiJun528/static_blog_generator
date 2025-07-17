@@ -2,7 +2,7 @@ import MarkdownIt from 'markdown-it';
 import * as path from 'path';
 
 interface MarkdownParseOptions {
-    notesRoot: string;
+    contentRoot: string;
     currentFileRelativePath: string;
 }
 
@@ -29,34 +29,28 @@ export function parseMarkdown(markdownContent: string, options: MarkdownParseOpt
                 if (!isExternalUrl) {
                     let sourceLinkedMdPath: string;
 
-                    // Determine the base directory for resolving the link
-                    console.log(`DEBUG: currentFileAbsPath args: notesRoot=${parseOptions.notesRoot}, currentFileRelativePath=${parseOptions.currentFileRelativePath}`);
-                    const currentFileAbsPath = path.join(parseOptions.notesRoot, parseOptions.currentFileRelativePath);
+                    const currentFileAbsPath = path.join(parseOptions.contentRoot, parseOptions.currentFileRelativePath);
                     const currentFileDir = path.dirname(currentFileAbsPath);
 
                     if (href.startsWith('./') || href.startsWith('../')) {
-                        // The Link is relative to the current file's directory
-                        console.log(`DEBUG: path.resolve args: currentFileDir=${currentFileDir}, href=${href}`);
                         sourceLinkedMdPath = path.resolve(currentFileDir, href);
                     } else {
-                        // Assume a link is relative to the notesRoot (Obsidian-like vault root linking)
-                        console.log(`DEBUG: path.join args: notesRoot=${parseOptions.notesRoot}, href=${href}`);
-                        sourceLinkedMdPath = path.join(parseOptions.notesRoot, href);
+                        // Assume a link is relative to the contentRoot (Obsidian-like vault root linking)
+                        sourceLinkedMdPath = path.join(parseOptions.contentRoot, href);
                     }
 
-                    // Ensure the resolved path is still within the note directory
-                    // This prevents links from escaping the note directory and causing unexpected behavior
-                    if (!sourceLinkedMdPath.startsWith(parseOptions.notesRoot)) {
-                        console.warn(`Link ${href} resolves outside notes directory: ${sourceLinkedMdPath}. Skipping conversion.`);
+                    // Ensure the resolved path is still within the content directory
+                    // This prevents links from escaping the content directory and causing unexpected behavior
+                    if (!sourceLinkedMdPath.startsWith(parseOptions.contentRoot)) {
+                        console.warn(`Link ${href} resolves outside content directory: ${sourceLinkedMdPath}. Skipping conversion.`);
                         return self.renderToken(tokens, idx, options);
                     }
 
-                    // Get the relative path from notesRoot to the linked MD file
-                    console.log(`DEBUG: path.relative args: notesRoot=${parseOptions.notesRoot}, sourceLinkedMdPath=${sourceLinkedMdPath}`);
-                    const relativeLinkedMdPathFromNotes = path.relative(parseOptions.notesRoot, sourceLinkedMdPath);
+                    // Get the relative path from contentRoot to the linked MD file
+                    const relativeLinkedMdPathFromContent = path.relative(parseOptions.contentRoot, sourceLinkedMdPath);
 
                     // Convert to the corresponding output HTML path (relative to output directory)
-                    const relativeLinkedHtmlPathFromOutput = relativeLinkedMdPathFromNotes.replace(/\.md$/, '.html');
+                    const relativeLinkedHtmlPathFromOutput = relativeLinkedMdPathFromContent.replace(/\.md$/, '.html');
 
                     // Determine the relative path from the current generated HTML file to the target HTML output file
                     const currentHtmlRelativePathFromOutput = parseOptions.currentFileRelativePath.replace(/\.md$/, '.html');

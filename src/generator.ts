@@ -6,8 +6,7 @@ import { parseMarkdown } from './parser';
 import { generateHtmlPage, generateDirectoryPageHtml } from './htmlGenerator';
 import { addToggleFunctionality } from './toggleGenerator';
 
-const NOTES_DIR_NAME = 'notes';
-const FILES_DIR_NAME = 'files';
+const CONTENT_DIR_NAME = 'content';
 const ASSETS_DIR_NAME = 'assets';
 const STATICS_DIR_NAME = 'statics'; // New constant for static files
 const OUTPUT_DIR_NAME = 'output';
@@ -23,9 +22,9 @@ const directoryStructure = new Map<string, DirectoryItem[]>(); // Map<relativeOu
 export function generateStaticBlog(projectRoot: string): void {
     console.log("Starting static blog generation...");
 
-    const notesDirPath = path.join(projectRoot, NOTES_DIR_NAME);
+    const contentDirPath = path.join(projectRoot, CONTENT_DIR_NAME);
     const outputDirPath = path.join(projectRoot, OUTPUT_DIR_NAME);
-    const filesDirPath = path.join(projectRoot, FILES_DIR_NAME);
+    
     const assetsDirPath = path.join(projectRoot, ASSETS_DIR_NAME);
 
     // Ensure output directory exists and is clean
@@ -34,13 +33,14 @@ export function generateStaticBlog(projectRoot: string): void {
     }
     fs.mkdirSync(outputDirPath, { recursive: true });
 
-    // 1. Copy assets and files to output directory
+    // 1. Copy content, assets, and statics to output directory
+    if (fs.existsSync(contentDirPath)) {
+        copyDirectory(contentDirPath, outputDirPath);
+    }
     if (fs.existsSync(assetsDirPath)) {
         copyDirectory(assetsDirPath, path.join(outputDirPath, ASSETS_DIR_NAME));
     }
-    if (fs.existsSync(filesDirPath)) {
-        copyDirectory(filesDirPath, path.join(outputDirPath, FILES_DIR_NAME));
-    }
+    
 
     // Copy static files to output directory
     const staticsDirPath = path.join(projectRoot, STATICS_DIR_NAME);
@@ -57,11 +57,11 @@ export function generateStaticBlog(projectRoot: string): void {
         fs.copyFileSync(normalizeCssPath, path.join(outputCssDir, 'normalize.css'));
     }
 
-    // 2. Traverse note directory, parse markdown, and generate HTML
-    traverseDirectory(notesDirPath, (filePath: string) => {
+    // 2. Traverse content directory, parse markdown, and generate HTML
+    traverseDirectory(contentDirPath, (filePath: string) => {
         if (filePath.endsWith('.md')) {
-            const relativePathFromNotes = path.relative(notesDirPath, filePath); // e.g., '2025/07/first-post.md'
-            const outputFileName = relativePathFromNotes.replace(/\.md$/, '.html'); // e.g., '2025/07/first-post.html'
+            const relativePathFromContent = path.relative(contentDirPath, filePath); // e.g., '2025/07/first-post.md'
+            const outputFileName = relativePathFromContent.replace(/\.md$/, '.html'); // e.g., '2025/07/first-post.html'
             const outputFilePath = path.join(outputDirPath, outputFileName); // Absolute path to output HTML
             const outputDirForFile = path.dirname(outputFilePath); // Absolute path to output directory for this file
 
@@ -69,20 +69,20 @@ export function generateStaticBlog(projectRoot: string): void {
 
             const markdownContent = fs.readFileSync(filePath, 'utf-8');
             
-            // Pass notesRoot and currentFileRelativePath to parseMarkdown
+            // Pass contentRoot and currentFileRelativePath to parseMarkdown
             const htmlContent = parseMarkdown(markdownContent, {
-                notesRoot: notesDirPath,
-                currentFileRelativePath: relativePathFromNotes
+                contentRoot: contentDirPath,
+                currentFileRelativePath: relativePathFromContent
             });
 
             const title = path.basename(filePath, '.md');
-            const currentPathForHtml = '/' + relativePathFromNotes.replace(/\.md$/, ''); // Path for HTML header/breadcrumbs (e.g., '/2025/07/first-post')
+            const currentPathForHtml = '/' + relativePathFromContent.replace(/\.md$/, ''); // Path for HTML header/breadcrumbs (e.g., '/2025/07/first-post')
             const finalHtml = addToggleFunctionality(generateHtmlPage(title, htmlContent, currentPathForHtml));
             fs.writeFileSync(outputFilePath, finalHtml);
             console.log(`Generated: ${outputFilePath}`);
 
             // Populate directoryStructure for index.html generation
-            let currentRelativeOutputDir = path.dirname(relativePathFromNotes); // e.g., '2025/07'
+            let currentRelativeOutputDir = path.dirname(relativePathFromContent); // e.g., '2025/07'
             if (currentRelativeOutputDir === '.') currentRelativeOutputDir = ''; // Handle root directory
 
             // Add the file to its parent directory's listing
@@ -118,8 +118,14 @@ export function generateStaticBlog(projectRoot: string): void {
             }
 
         } else {
-            // Throw an error if a non-markdown file is found in the note directory
-            throw new Error(`Non-markdown file found in notes directory: ${filePath}. Only .md files are allowed.`);
+            // Copy other files to the output directory
+            const relativePathFromContent = path.relative(contentDirPath, filePath);
+            const outputFilePath = path.join(outputDirPath, relativePathFromContent);
+            const outputDirForFile = path.dirname(outputFilePath);
+            if (!fs.existsSync(outputDirForFile)) {
+                fs.mkdirSync(outputDirForFile, { recursive: true });
+            }
+            fs.copyFileSync(filePath, outputFilePath);
         }
     });
 
