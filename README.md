@@ -1,3 +1,8 @@
+
+이 저장소는 더 이상 사용되지 않습니다.
+
+이 프로젝트는 [YangSiJun528.github.io](https://github.com/YangSiJun528/YangSiJun528.github.io)으로 이관되었습니다.
+
 # Static Blog Generator
 
 이 프로젝트는 Markdown 파일을 HTML 기반 정적 웹사이트로 변환하는 정적 블로그 생성기입니다. 
